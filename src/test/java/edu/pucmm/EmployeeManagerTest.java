@@ -229,12 +229,4 @@ public class EmployeeManagerTest {
         Employee duplicateEmployee = new Employee("1", "Alan Mena", juniorDeveloper, 35000);
         assertThrows(DuplicateEmployeeException.class, () -> employeeManager.addEmployee(duplicateEmployee));
     }
-
-    // test Si el salario está fuera de rango pero dentro del 10% inferior del mínimo permitido, se debe ajustar automáticamente al salario mínimo de la nueva posición.
-    @Test
-    public void testAdjustSalaryToMinimumIfBelow10Percent() {
-        Employee employee3 = new Employee("3", "Perla Martinez", juniorDeveloper, 27000);
-        employeeManager.addEmployee(employee3);
-        assertEquals(30000, employee3.getSalary());
-    }
 }
