@@ -130,6 +130,9 @@ public class EmployeeManagerTest {
         assertTrue(employeeManager.isSalaryValidForPosition(seniorDeveloper, 70000));
         // - Verificar que un salario de 50000 no es válido para seniorDeveloper.
         assertFalse(employeeManager.isSalaryValidForPosition(seniorDeveloper, 50000));
+        // - Verificar que un salario negativo no es válido para ninguna posición.
+        assertFalse(employeeManager.isSalaryValidForPosition(juniorDeveloper, -1000));
+        assertFalse(employeeManager.isSalaryValidForPosition(seniorDeveloper, -1000));
     }
 
     @Test
@@ -218,5 +221,20 @@ public class EmployeeManagerTest {
         assertNotNull(employeeManager.getEmployees());
         assertTrue(employeeManager.getEmployees().contains(employee1));
         assertFalse(employeeManager.getEmployees().isEmpty());
+    }
+
+    // test para que no haya dos empleados con el mismo ID
+    @Test
+    public void testNoDuplicateEmployeeId() {
+        Employee duplicateEmployee = new Employee("1", "Alan Mena", juniorDeveloper, 35000);
+        assertThrows(DuplicateEmployeeException.class, () -> employeeManager.addEmployee(duplicateEmployee));
+    }
+
+    // test Si el salario está fuera de rango pero dentro del 10% inferior del mínimo permitido, se debe ajustar automáticamente al salario mínimo de la nueva posición.
+    @Test
+    public void testAdjustSalaryToMinimumIfBelow10Percent() {
+        Employee employee3 = new Employee("3", "Perla Martinez", juniorDeveloper, 27000);
+        employeeManager.addEmployee(employee3);
+        assertEquals(30000, employee3.getSalary());
     }
 }
