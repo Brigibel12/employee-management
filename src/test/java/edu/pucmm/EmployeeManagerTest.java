@@ -72,6 +72,8 @@ public class EmployeeManagerTest {
         employee1.setSalary(45000);
         // - Verificar que el salario de employee1 ahora es 45000.
         assertEquals(45000, employee1.getSalary());
+        // - Verificar que no se lanza ninguna excepción con ese salario
+        assertDoesNotThrow(() -> employeeManager.updateEmployeeSalary(employee1, 45000));
     }
 
     @Test
@@ -166,5 +168,55 @@ public class EmployeeManagerTest {
         // - Intentar agregar employee1 nuevamente al employeeManager.
         // - Verificar que se lanza una DuplicateEmployeeException.
         assertThrows(DuplicateEmployeeException.class, () -> employeeManager.addEmployee(employee1));
+    }
+
+    // test para validar que el id del empleado sea el ingresado
+    @Test
+    public void testEmployeeId() {
+        assertEquals("1", employee1.getId());
+        assertEquals("2", employee2.getId());
+    }
+
+    // test para validar que el name del empleado sea el ingresado
+    @Test
+    public void testEmployeeName() {
+        assertEquals("John Doe", employee1.getName());
+        assertEquals("Jane Smith", employee2.getName());
+    }
+
+    // test para validar que setId del empleado
+    @Test
+    public void testSetEmployeeId() {
+        employee1.setId("3");
+        assertEquals("3", employee1.getId());
+    }
+
+    // test para validar que setName del empleado
+    @Test
+    public void testSetEmployeeName() {
+        employee1.setName("John Smith");
+        assertEquals("John Smith", employee1.getName());
+    }
+
+    // test para validar que setId de la posición
+    @Test
+    public void testSetPositionId() {
+        juniorDeveloper.setId("3");
+        assertEquals("3", juniorDeveloper.getId());
+    }
+
+    // test para validar que setName de la posición
+    @Test
+    public void testSetPositionName() {
+        juniorDeveloper.setName("Junior Software Engineer");
+        assertEquals("Junior Software Engineer", juniorDeveloper.getName());
+    }
+
+    // test para validar getEmployees
+    @Test
+    public void testGetEmployees() {
+        assertNotNull(employeeManager.getEmployees());
+        assertTrue(employeeManager.getEmployees().contains(employee1));
+        assertFalse(employeeManager.getEmployees().isEmpty());
     }
 }
